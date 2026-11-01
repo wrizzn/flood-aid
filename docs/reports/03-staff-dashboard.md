@@ -48,6 +48,25 @@
 - การทดสอบโหลดสูงและประสิทธิภาพ count แบบ exact บนข้อมูลจริง
 - ไม่ได้ push branch หรือ merge เข้า main และไม่รัน schema/migrations/policies
 
+
+## git log --oneline ฉบับเต็ม ณ snapshot เดียวกัน
+
+```text
+28ebd2c docs: record staff dashboard checks limitations and manual test steps
+bc6d228 feat: add guarded staff login and paginated request dashboard
+86e601b feat: add staff request workflow pagination and session client
+0678e00 docs: move previous reports and start staff dashboard work log
+38fedab docs: document help request form verification and manual checks
+411cb34 feat: add accessible help request form with GPS and insert submission
+4b3ba94 feat: validate help request inputs with Vitest coverage
+73911ae docs: add setup completion report
+5cd533b chore: finalize lint configuration and record setup limitations
+8156c7c docs: add project instructions and unchanged database schema
+40cde02 chore: configure Supabase browser client and environment template
+2ff1cc9 chore: scaffold Next.js TypeScript and Tailwind with ESLint
+exit code: 0
+```
+
 ## git log --oneline และ git diff --stat เทียบกับ main
 
 แนบผลคำสั่งจริงท้ายรายงาน โดยระบุจุด snapshot ชัดเจน เพราะ commit ที่บันทึก snapshot เองไม่สามารถมี hash ของตนเองในเนื้อหาได้
@@ -152,9 +171,9 @@ exit code: 0
   Finished TypeScript in 1858ms ...
   Collecting page data using 7 workers ...
   Generating static pages using 7 workers (0/6) ...
-  Generating static pages using 7 workers (1/6) 
-  Generating static pages using 7 workers (2/6) 
-  Generating static pages using 7 workers (4/6) 
+  Generating static pages using 7 workers (1/6)
+  Generating static pages using 7 workers (2/6)
+  Generating static pages using 7 workers (4/6)
 ✓ Generating static pages using 7 workers (6/6) in 682ms
   Finalizing page optimization ...
 
@@ -192,4 +211,72 @@ exit code: 1
 ```
 
 แก้โดยรันตามลำดับ ผลรอบสุดท้ายด้านบนผ่าน exit code 0
+
+## Snapshot Git จากคำสั่งจริง
+
+Snapshot ที่ HEAD 28ebd2c ก่อนเพิ่มผล Git ส่วนนี้และ commit หลักฐานรายงาน จึงไม่รวม commit ที่บันทึก snapshot เอง ส่วน stat ของรายงานอ้างอิงขนาด ณ จุดนั้นเท่านั้น
+
+หมายเหตุการจัดรูปแบบ output: ตัดช่องว่างท้ายบรรทัด progress ของ build 3 บรรทัดเพื่อให้ Git whitespace check ผ่าน ไม่แก้ข้อความผลหรือ exit code
+
+### git log --oneline main..HEAD
+
+```text
+28ebd2c docs: record staff dashboard checks limitations and manual test steps
+bc6d228 feat: add guarded staff login and paginated request dashboard
+86e601b feat: add staff request workflow pagination and session client
+0678e00 docs: move previous reports and start staff dashboard work log
+exit code: 0
+```
+
+### git diff --stat main
+
+```text
+ AGENTS.md                                          |  35 +++-
+ app/globals.css                                    |   6 +
+ app/staff/layout.tsx                               |   5 +
+ app/staff/login/page.tsx                           |  41 +++++
+ app/staff/page.tsx                                 | 129 ++++++++++++++
+ components/staff-session.tsx                       | 103 +++++++++++
+ SETUP_REPORT.md => docs/reports/01-setup.md        |   0
+ .../reports/02-help-request-form.md                |   0
+ docs/reports/03-staff-dashboard.md                 | 195 +++++++++++++++++++++
+ lib/staff/api.test.ts                              |  69 ++++++++
+ lib/staff/api.ts                                   |  52 ++++++
+ lib/staff/domain.test.ts                           |  50 ++++++
+ lib/staff/domain.ts                                |  54 ++++++
+ lib/supabase/client.ts                             |   6 +-
+ package-lock.json                                  |  26 +++
+ package.json                                       |   1 +
+ 16 files changed, 765 insertions(+), 7 deletions(-)
+exit code: 0
+```
+
+### git diff --name-status main
+
+```text
+M	AGENTS.md
+M	app/globals.css
+A	app/staff/layout.tsx
+A	app/staff/login/page.tsx
+A	app/staff/page.tsx
+A	components/staff-session.tsx
+R100	SETUP_REPORT.md	docs/reports/01-setup.md
+R100	HELP_REQUEST_FORM_REPORT.md	docs/reports/02-help-request-form.md
+A	docs/reports/03-staff-dashboard.md
+A	lib/staff/api.test.ts
+A	lib/staff/api.ts
+A	lib/staff/domain.test.ts
+A	lib/staff/domain.ts
+M	lib/supabase/client.ts
+M	package-lock.json
+M	package.json
+exit code: 0
+```
+
+### git diff --exit-code main -- db/schema.sql
+
+```text
+(ไม่มี output)
+exit code: 0
+```
 
