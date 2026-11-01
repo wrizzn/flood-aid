@@ -1,6 +1,7 @@
 "use client";
 
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import { createBrowserClient } from "@supabase/ssr";
 
 let client: SupabaseClient | undefined;
 
@@ -17,6 +18,7 @@ export function getSupabaseClient(): SupabaseClient {
     );
   }
 
-  client = createClient(url, publishableKey);
+  // SDK-managed session cookies; staff data is fetched only in Client Components.
+  client = createBrowserClient(url, publishableKey);
   return client;
 }
