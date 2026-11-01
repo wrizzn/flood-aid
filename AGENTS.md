@@ -38,6 +38,11 @@ db/schema.sql               # สำเนาไฟล์ของผู้ใ�
 - `db/schema.sql` คัดลอกตามต้นฉบับเท่านั้น ยังไม่ได้รันกับฐานข้อมูลและยังไม่ได้ตรวจรับรองสิทธิ์ RLS สำหรับใช้งานจริง
 - ถ้าไม่แน่ใจ API หรือเวอร์ชัน ให้ตรวจเอกสารทางการ หากข้อมูลจำเป็นไม่ครบให้ถามผู้ใช้ก่อนลงมือ
 
+## ข้อจำกัดของเครื่องมือตั้งต้น
+- ใช้ ESLint 9.39.5 เพราะปลั๊กอิน react/import/jsx-a11y ในชุดตั้งค่า Next.js นี้ยังไม่รองรับ peer dependency ของ ESLint 10 แม้ ESLint 9 จะมีคำเตือนหมดช่วงสนับสนุน
+- ผล `npm audit` ตอนตั้งโครง (1 พฤศจิกายน 2026): moderate 16 รายการ อยู่ในสาย dependencies ของ ESLint; high/critical 0 รายการ ยังไม่ได้ใช้ `npm audit fix --force` เพราะข้อเสนออัตโนมัติเปลี่ยน major versions
+- ยังไม่มีค่าการเชื่อมต่อ Supabase จึงยังไม่ได้ทดสอบ query กับฐานข้อมูลจริง
+
 ## เอกสารทางการที่ใช้ตั้งโครง
 - https://nextjs.org/docs/app/getting-started/installation
 - https://nextjs.org/docs/app/api-reference/config/eslint
