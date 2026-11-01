@@ -4,3 +4,9 @@ body {
   margin: 0;
   font-family: Tahoma, Arial, sans-serif;
 }
+
+@layer components {
+  .staff-button { @apply min-h-12 rounded-lg px-4 py-3 text-lg font-semibold disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-blue-700; }
+  .staff-input { @apply mt-2 min-h-12 w-full rounded-lg border border-slate-600 bg-white px-3 py-3 text-lg focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-blue-700; }
+  .staff-error { @apply rounded-lg border-2 border-red-800 bg-red-50 p-4 text-red-900; }
+}
